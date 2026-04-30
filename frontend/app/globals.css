@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #fff7e8;
+  --card: #fffdf8;
+  --ink: #433124;
+  --soft: #7d6a57;
+  --line: #ead9b8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 10%, #ffeed8 0%, transparent 35%),
+    radial-gradient(circle at 90% 0%, #dff3ff 0%, transparent 35%),
+    linear-gradient(180deg, #fff8eb 0%, #fff2de 100%);
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  box-shadow: 0 12px 28px rgba(67, 49, 36, 0.12);
+}
+
+.label {
+  font-size: 0.875rem;
+  color: var(--soft);
+}
+
+.field {
+  width: 100%;
+  border: 1px solid #dbc8a6;
+  border-radius: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  background: #fffdf8;
+}
+
+.btn {
+  border-radius: 0.75rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid transparent;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #9acfb4;
+  color: #173324;
+}
+
+.btn-secondary {
+  background: #f3e4c7;
+  color: #433124;
+}
+
+.btn-outline {
+  background: #fffdf8;
+  border-color: #d8c5a3;
+  color: #433124;
+}

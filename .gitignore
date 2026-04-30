@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+.next/
+
+# Local env
+.env
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# Media output
+backend/media/generated/
+backend/media/references/
+
+# OS
+.DS_Store
+Thumbs.db
