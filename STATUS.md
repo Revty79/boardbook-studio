@@ -9,8 +9,9 @@
 - Mock providers implemented:
   - `MockLLMProvider`
   - `MockImageProvider`
-- Placeholder providers added for next integration phase:
-  - `OllamaProvider` (stub)
+- Real LLM integration added:
+  - `OllamaProvider` (live `/api/chat` integration with structured JSON output)
+- Placeholder image provider added for next integration phase:
   - `ComfyUIProvider` (stub)
 - Local image storage enabled and served from `/media`.
 - Endpoints implemented for:
@@ -106,7 +107,6 @@
 11. Approve a version; confirm approved marker is shown.
 
 ## What Should Be Built Next
-- Implement real Ollama prompt/refinement provider with configurable model/runtime settings.
 - Implement real ComfyUI provider with workflow template and parameter mapping.
 - Add generation job status tracking and async/background queue handling.
 - Add richer character consistency controls (pose lock, outfit continuity rules, shot framing memory).

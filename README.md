@@ -6,8 +6,8 @@ This MVP includes:
 - Next.js + TypeScript + Tailwind frontend
 - FastAPI backend with PostgreSQL
 - Local image storage (`backend/media`)
-- Mock LLM + mock image generation providers
-- Placeholder provider files for future Ollama and ComfyUI integrations
+- Real Ollama-compatible LLM provider + mock fallback
+- Mock image generation provider + ComfyUI placeholder
 
 ## Architecture
 
@@ -98,6 +98,23 @@ Current defaults are mock providers:
 - `MockLLMProvider`: returns deterministic structured prompt text
 - `MockImageProvider`: creates placeholder PNG output in `backend/media/generated/`
 
-Future integration stubs (not active yet):
-- `OllamaProvider`
+Available LLM integration:
+- `OllamaProvider`: uses Ollama `/api/chat` with structured JSON output
+
+Image integration status:
 - `ComfyUIProvider`
+
+### Switch to Ollama
+
+1. Install and run Ollama.
+2. Pull a model (example):
+```bash
+ollama pull llama3.2
+```
+3. In `backend/.env`:
+```env
+LLM_PROVIDER=ollama
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama3.2
+```
+4. Restart backend.

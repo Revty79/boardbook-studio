@@ -12,6 +12,14 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000"
     llm_provider: str = "mock"
     image_provider: str = "mock"
+    ollama_base_url: str = "http://localhost:11434"
+    ollama_model: str = "llama3.2"
+    ollama_keep_alive: str = "10m"
+    ollama_temperature: float = 0.2
+    ollama_num_ctx: int = 4096
+    ollama_timeout_seconds: float = 120.0
+    ollama_seed: int | None = None
+    ollama_api_key: str | None = None
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 

@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.providers import get_image_provider, get_llm_provider
+from app.providers import ProviderError, get_image_provider, get_llm_provider
 from app.repositories import CharacterRepository, GenerationRepository, StoryPageRepository, StyleProfileRepository
 from app.services.prompt_builder import build_prompt_payload
 
@@ -24,7 +24,13 @@ class GenerationService:
         style = self.style_repo.get_for_project(db, page.project_id)
 
         payload = build_prompt_payload(page=page, characters=characters, style_profile=style)
-        result = self.llm_provider.build_initial_prompt(payload)
+        try:
+            result = self.llm_provider.build_initial_prompt(payload)
+        except ProviderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail=f"LLM provider error: {exc}",
+            ) from exc
         return {
             "prompt": result.prompt,
             "negative_prompt": result.negative_prompt,
@@ -40,12 +46,18 @@ class GenerationService:
         style = self.style_repo.get_for_project(db, page.project_id)
         payload = build_prompt_payload(page=page, characters=characters, style_profile=style)
 
-        prompt_result = self.llm_provider.build_initial_prompt(payload)
-        image_result = self.image_provider.generate_image(
-            prompt=prompt_result.prompt,
-            negative_prompt=prompt_result.negative_prompt,
-            seed=prompt_result.seed,
-        )
+        try:
+            prompt_result = self.llm_provider.build_initial_prompt(payload)
+            image_result = self.image_provider.generate_image(
+                prompt=prompt_result.prompt,
+                negative_prompt=prompt_result.negative_prompt,
+                seed=prompt_result.seed,
+            )
+        except ProviderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail=f"Provider error: {exc}",
+            ) from exc
 
         return self.generation_repo.create(
             db,
@@ -72,17 +84,23 @@ class GenerationService:
         style = self.style_repo.get_for_project(db, page.project_id)
         payload = build_prompt_payload(page=page, characters=characters, style_profile=style)
 
-        prompt_result = self.llm_provider.refine_prompt(
-            payload=payload,
-            parent_prompt=parent_generation.prompt,
-            parent_negative_prompt=parent_generation.negative_prompt,
-            instruction=instruction,
-        )
-        image_result = self.image_provider.generate_image(
-            prompt=prompt_result.prompt,
-            negative_prompt=prompt_result.negative_prompt,
-            seed=prompt_result.seed,
-        )
+        try:
+            prompt_result = self.llm_provider.refine_prompt(
+                payload=payload,
+                parent_prompt=parent_generation.prompt,
+                parent_negative_prompt=parent_generation.negative_prompt,
+                instruction=instruction,
+            )
+            image_result = self.image_provider.generate_image(
+                prompt=prompt_result.prompt,
+                negative_prompt=prompt_result.negative_prompt,
+                seed=prompt_result.seed,
+            )
+        except ProviderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                detail=f"Provider error: {exc}",
+            ) from exc
 
         generation = self.generation_repo.create(
             db,
