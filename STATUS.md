@@ -112,3 +112,6 @@
 - Add richer character consistency controls (pose lock, outfit continuity rules, shot framing memory).
 - Add delete/archive endpoints and optimistic error handling polish in the frontend.
 - Add integration tests for critical API workflows and smoke tests for page editor flow.
+
+## Known Local Runtime Note
+- On this machine, port `8000` is occupied by another process (`Manager.exe`). If frontend errors with `TypeError: Failed to fetch`, run backend on `8002` and set `frontend/.env.local` API/media URLs to port `8002`.

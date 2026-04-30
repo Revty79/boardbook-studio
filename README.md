@@ -69,6 +69,10 @@ npm run dev
 Frontend runs at `http://localhost:3000`.
 Backend runs at `http://localhost:8000`.
 
+If port `8000` is already used by another app on your machine, start backend on another port (example `8002`) and update:
+- `frontend/.env.local` -> `NEXT_PUBLIC_API_BASE_URL=http://localhost:8002/api`
+- `frontend/.env.local` -> `NEXT_PUBLIC_MEDIA_BASE_URL=http://localhost:8002/media`
+
 ## Demo Data
 
 On first backend startup, demo data is seeded automatically if the database is empty:
