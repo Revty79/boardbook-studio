@@ -7,7 +7,7 @@ This MVP includes:
 - FastAPI backend with PostgreSQL
 - Local image storage (`backend/media`)
 - Real Ollama-compatible LLM provider + mock fallback
-- Mock image generation provider + ComfyUI placeholder
+- Real ComfyUI-compatible image provider + mock fallback
 
 ## Architecture
 
@@ -101,8 +101,27 @@ Current defaults are mock providers:
 Available LLM integration:
 - `OllamaProvider`: uses Ollama `/api/chat` with structured JSON output
 
-Image integration status:
-- `ComfyUIProvider`
+Available image integration:
+- `ComfyUIProvider`: submits workflow to `/prompt`, polls `/history/{prompt_id}`, downloads result via `/view`
+
+### Switch to ComfyUI
+
+1. Start ComfyUI API server (default `http://127.0.0.1:8188`).
+2. Ensure your workflow is in API format.
+   In ComfyUI: `File -> Save (API Format)`.
+3. Configure in `backend/.env`:
+```env
+IMAGE_PROVIDER=comfyui
+COMFYUI_BASE_URL=http://127.0.0.1:8188
+COMFYUI_WORKFLOW_PATH=workflows/comfyui_text2img_api.json
+COMFYUI_POSITIVE_PROMPT_NODE_ID=6
+COMFYUI_NEGATIVE_PROMPT_NODE_ID=7
+COMFYUI_SAMPLER_NODE_ID=3
+COMFYUI_SAVE_IMAGE_NODE_ID=9
+# COMFYUI_CHECKPOINT_NAME=your_model.safetensors
+```
+4. If your exported workflow uses different node IDs, update the `COMFYUI_*_NODE_ID` env values.
+5. Restart backend.
 
 ### Switch to Ollama
 

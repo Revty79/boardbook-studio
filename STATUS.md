@@ -11,8 +11,8 @@
   - `MockImageProvider`
 - Real LLM integration added:
   - `OllamaProvider` (live `/api/chat` integration with structured JSON output)
-- Placeholder image provider added for next integration phase:
-  - `ComfyUIProvider` (stub)
+- Real image integration added:
+  - `ComfyUIProvider` (workflow submit via `/prompt`, polling `/history/{prompt_id}`, image fetch via `/view`)
 - Local image storage enabled and served from `/media`.
 - Endpoints implemented for:
   - dashboard summary
@@ -59,6 +59,7 @@
   - `backend/app/api/deps.py`
   - `backend/app/api/routes/*.py`
   - `backend/app/utils/files.py`
+  - `backend/workflows/comfyui_text2img_api.json`
 - Frontend:
   - `frontend/package.json`
   - `frontend/tsconfig.json`
@@ -107,7 +108,6 @@
 11. Approve a version; confirm approved marker is shown.
 
 ## What Should Be Built Next
-- Implement real ComfyUI provider with workflow template and parameter mapping.
 - Add generation job status tracking and async/background queue handling.
 - Add richer character consistency controls (pose lock, outfit continuity rules, shot framing memory).
 - Add delete/archive endpoints and optimistic error handling polish in the frontend.
